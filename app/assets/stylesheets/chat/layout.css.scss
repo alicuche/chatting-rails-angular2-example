@@ -1,0 +1,111 @@
+#wrapper.container {
+  width: 100%;
+  padding: 0;
+}
+
+#left{
+  background: #4D5250;
+  border-color: #4D5250;
+  color: #b3b3b3;
+  height:100vh;
+  position: relative;
+  h2.title{
+    font-size: 14px;
+    i.fa-plus{
+      float: right;
+      cursor: pointer;
+    }
+  }
+
+
+  #user-info{
+    height: 60px;
+    padding: 8px 10px;
+    .user_name{
+      font-size: 18px;
+      display: block;
+      color: #e0e0e0;
+      margin-top: 2px;
+    }
+    .status{
+      margin-top: -4px;
+      display: block;
+      i{
+        font-size: 10px;
+        margin-right: 5px;
+        &.fa-chevron-down {
+            color: #ccc !important;
+            margin: -2px 0 0 10px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+      }
+    }
+  }
+
+  #sign-out{
+    width: 100%;
+    border-top: 1px solid #656565;
+    border-radius: 0;
+    left: 0;
+    bottom: 0;
+    position: absolute;
+    color: #b3b3b3;
+  }
+
+  #channels{
+    ul{
+      margin-left: 10px;
+    }
+  }
+
+  #friends-list{
+    ul{
+      margin-left: 10px;
+    }
+  }
+} // end #left
+
+#content{
+  height:100vh;
+  #header-content{
+    padding: 6px 0 0px 0px;
+    height: 60px;
+    border-bottom: 1px solid #e8e8e8;
+    #header-info{
+      .name{
+        font-weight: bold;
+        margin: 0;
+        font-size: 20px;
+      }
+    }
+
+    #search{
+      margin-top: 6px;
+      input{
+        padding-left: 30px;
+      }
+      .fa-search{
+        left: 0;
+        margin-top: 10px;
+      }
+    }
+  }
+}
+
+#input-message{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  width: 100%;
+  input{
+    width: 98%;
+    margin: 0 auto 5px;
+  }
+}
+
+#messages-content{
+  overflow-y: scroll;
+  float: left;
+}

@@ -1,0 +1,27 @@
+.real_content.card.align_center.span_4_of_6.col.float_none.margin_auto.large_bottom_margin.right_padding.large_bottom_padding
+  %h1#signin_header
+    Sign in to
+    %span.break_word ZIGExN VeNtura
+  #messages
+    = devise_error_messages!
+  .col.span_4_of_6.float_none.margin_auto.large_bottom_margin
+    = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+      %p
+        Enter your
+        %strong information
+        and
+        %strong password
+      %p.no_bottom_margin
+        = f.email_field :email, autofocus: true, id: 'email', placeholder: "you@zigexn.vn", size: "40"
+      %p.no_bottom_margin
+        = f.text_field :username, id: 'username', placeholder: "username", size: "40"
+      %p.small_bottom_margin
+        = f.password_field :password, autocomplete: "off", placeholder: "password", size: "40"
+      %p.small_bottom_margin
+        = f.password_field :password_confirmation, autocomplete: "off", placeholder: "repeat password", size: "40"
+      %p
+        %button#signin_btn.btn.btn_large.full_width.ladda-button{"data-style" => "expand-right", :type => "submit"}
+          %span.ladda-label Sign up
+          %span.ladda-spinner
+      %p.small
+        %a#forgot-pw.bold{href: "#"} I forgot my password

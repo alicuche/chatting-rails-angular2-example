@@ -1,0 +1,18 @@
+!!!
+%html
+  %head
+    %title ZIGExN VeNtura Chatting sss
+    %base{:href => "/"}
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
+    = javascript_include_tag '/frontend/node_modules/core-js/client/shim.min'
+    = javascript_include_tag '/frontend/node_modules/zone.js/dist/zone'
+    = javascript_include_tag '/frontend/node_modules/reflect-metadata/Reflect'
+    = javascript_include_tag '/frontend/node_modules/systemjs/dist/system.src'
+    = javascript_include_tag '/frontend/systemjs.config'
+
+    = csrf_meta_tags
+    = favicon_link_tag '/images/favicon.png'
+
+  %body
+    = yield

@@ -1,0 +1,32 @@
+!!!
+%html
+  %head
+    %title Appear
+    %base{href: "/"}
+    = stylesheet_link_tag    'home', media: 'all'
+    = javascript_include_tag 'home'
+
+    = csrf_meta_tags
+    = favicon_link_tag '/images/favicon.png'
+  %body
+    %p.notice
+      = notice
+    %p.alert
+      = alert
+
+    %nav.top.persistent
+      %a.logo{href: "/"}
+      %ul
+        %li
+          %a{href: '#'} Support
+        %li
+          %a{href: new_user_registration_path, class: current_class(new_user_registration_path)} Sign up
+        %li
+          %a{href: new_user_session_path, class: current_class(new_user_session_path)} Sign in
+
+        - if current_user.present?
+          %li
+            %a{href: destroy_user_session_path, 'data-method' => :delete} Sign out
+    #page
+      #page_contents
+        = yield
