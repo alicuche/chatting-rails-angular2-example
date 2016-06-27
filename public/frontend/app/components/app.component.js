@@ -11,28 +11,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var router_deprecated_1 = require('@angular/router-deprecated');
 var routes_1 = require('../routes');
+// components
+var direct_messages_component_1 = require('./direct_messages.component');
+// services
+var http_service_1 = require('../services/http.service');
 var user_service_1 = require('../services/user.service');
+var message_service_1 = require('../services/message.service');
+// directives
+var enter_key_directive_1 = require('../directives/enter_key.directive');
 var AppComponent = (function () {
     function AppComponent(userService) {
         this.userService = userService;
         this.currentUser = {};
     }
     AppComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.userService.getCurrentUser().then(function (user) {
-            currentUser = user;
-            _this.currentUser = currentUser;
-        });
+        this.currentUser = currentUser;
     };
     AppComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: '#chat',
             templateUrl: '../views/layouts/application.html',
-            directives: [router_deprecated_1.ROUTER_DIRECTIVES],
+            directives: [router_deprecated_1.ROUTER_DIRECTIVES, direct_messages_component_1.DirectMessagesComponent, enter_key_directive_1.EnterKeyDirective],
             providers: [
                 router_deprecated_1.ROUTER_PROVIDERS,
-                user_service_1.UserService
+                http_service_1.HttpService,
+                user_service_1.UserService,
+                message_service_1.MessageService
             ]
         }),
         router_deprecated_1.RouteConfig(routes_1.APP_ROUTER_PROVIDERS), 

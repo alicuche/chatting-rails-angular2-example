@@ -1,29 +1,17 @@
 import { Headers, Http } from '@angular/http';
-
 import { Injectable }    from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
-import { User } from '../models/user';
-import { BaseService } from './base.service'
+import { HttpService } from './http.service'
 
 @Injectable()
 export class UserService{
-  private userUrl = '/users';  // URL to web api
+  constructor(
+    private httpService: HttpService,
+    private http: Http) {}
 
-  constructor(private http: Http) {}
-
-  getCurrentUser() {
-    return this.http.get('/users/current')
-      .toPromise()
-      .then(response => response.json())
-      .catch(this.handleError)
-  }
-
-  getUser(id: number) {
-    return this.http.get(`this.userUrl/${id}`)
-      .toPromise()
-      .then(response => response.json().data)
-      .catch(this.handleError);
+  getUserByUsername(username: string) {
+    return this.httpService.get(`/users/username/${username}`)
   }
 
   private handleError(error: any) {

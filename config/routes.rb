@@ -4,8 +4,16 @@ Rails.application.routes.draw do
   # devise
   devise_for :users
 
-  get 'users/current', to: 'users#current'
+  resources :users, only: [] do
+    collection do
+      get :current
+      post :add_friend
+      get 'username/:username', to: 'users#get_by_username'
+    end
+  end
+
+  resources :messages
 
   # chatting
-  get ':name', to: 'chat#index'
+  get ':name(/*other)', to: 'chat#index'
 end

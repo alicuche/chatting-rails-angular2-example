@@ -1,24 +1,36 @@
+import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
-export class BaseService {
-  constructor(private http: Http) {}
+@Injectable()
+export class HttpService {
+  constructor(public http: Http) {}
 
-  // get(url) {
-  //   return this.http.get(this.heroesUrl)
-  //     .toPromise()
-  //     .then(response => response.json().data)
-  //     .catch(this.handleError);
-  // }
-  // getHero(id: number) {
-  //   return this.getHeroes()
-  //     .then(heroes => heroes.filter(hero => hero.id === id)[0]);
-  // }
+  public get(url: string) {
+    return this.http.get(url)
+      .toPromise()
+      .then(response => response.json())
+      .catch(this.handleError)
+  }
+
+  public post(url, data: any) {
+    let headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http
+      .post(url, JSON.stringify(data), { headers: headers })
+      .toPromise()
+      .then(res => res.json())
+      .catch(this.handleError)
+  }
+
   // save(hero: Hero): Promise<Hero> {
   //   if (hero.id) {
   //     return this.put(hero);
   //   }
   //   return this.post(hero);
   // }
+
   // delete(hero: Hero) {
   //   let headers = new Headers();
   //   headers.append('Content-Type', 'application/json');
@@ -50,8 +62,9 @@ export class BaseService {
   //     .then(() => hero)
   //     .catch(this.handleError);
   // }
-  // private handleError(error: any) {
-  //   console.error('An error occurred', error);
-  //   return Promise.reject(error.message || error);
-  // }
+
+  private handleError(error: any) {
+    console.error('An error occurred', error);
+    return Promise.reject(error.message || error);
+  }
 }

@@ -1,8 +1,17 @@
 import { Component, OnInit } from '@angular/core'
 import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from '@angular/router-deprecated'
 import { APP_ROUTER_PROVIDERS } from '../routes'
+
+// components
+import { DirectMessagesComponent } from './direct_messages.component'
+
+// services
+import { HttpService } from '../services/http.service'
 import { UserService } from '../services/user.service'
-import { User } from '../models/user'
+import { MessageService } from '../services/message.service'
+
+// directives
+import { EnterKeyDirective } from '../directives/enter_key.directive';
 
 declare  var $:any
 declare  var window:any
@@ -13,25 +22,24 @@ declare  var currentUser:any
   moduleId: module.id,
   selector: '#chat',
   templateUrl: '../views/layouts/application.html',
-  directives: [ROUTER_DIRECTIVES],
+  directives: [ROUTER_DIRECTIVES, DirectMessagesComponent, EnterKeyDirective],
   providers: [
     ROUTER_PROVIDERS,
-    UserService
+    HttpService,
+    UserService,
+    MessageService
   ]
 })
 
 @RouteConfig(APP_ROUTER_PROVIDERS)
 
-export class AppComponent {
+export class AppComponent implements OnInit {
   constructor(
     private userService: UserService ){}
 
   currentUser:any = {}
 
   ngOnInit(){
-    this.userService.getCurrentUser().then(user => {
-      currentUser = user
-      this.currentUser = currentUser
-    })
+    this.currentUser = currentUser
   }
 }

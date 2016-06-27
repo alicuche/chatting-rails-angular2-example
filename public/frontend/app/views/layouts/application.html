@@ -1,9 +1,9 @@
 <div class="container" id="wrapper">
 
-  <div id="left" class="col-xs-9 col-xs-3">
+  <div id="left" class="col-md-3 col-xs-3">
     <div class="row">
       <div id="user-info">
-        <img src="/images/avatar/male1.png" class="img-avatar" />
+        <img src="{{currentUser.avatar_path}}" class="img-avatar" />
         <span class="user_name">
           {{currentUser.username}}
         </span>
@@ -28,16 +28,7 @@
     </div>
 
     <div id="friends-list">
-      <h2 class="title">
-        FRIENDS LIST
-        <i class="fa fa-plus" aria-hidden="true"></i>
-      </h2>
-      <ul class="list-unstyled">
-        <li><i class="fa fa-circle status-online" aria-hidden="true"></i> kyujin</li>
-        <li><i class="fa fa-circle status-busy" aria-hidden="true"></i> random</li>
-        <li><i class="fa fa-circle" aria-hidden="true"></i> ventura intership</li>
-        <li><i class="fa fa-circle" aria-hidden="true" ></i> kyujin</li>
-      </ul>
+      <direct-messages></direct-messages>
     </div>
 
     <a href="/users/sign_out" id="sign-out" class="btn">SIGN OUT</a>
@@ -45,207 +36,6 @@
   </div>
 
   <div id="content" class="col-md-9 col-xs-9">
-
-    <div id="header-content" class="row">
-      <div id="header-info" class="col-xs-7 col-md-7">
-        <h3 class="name">#ventura intership</h3>
-        <span class="count-member silver">12 members </span>
-        |
-        <span class="desc silver"> happy coding</span>
-      </div>
-      <div id="search" class="col-xs-5 col-md-5">
-        <div class="form-group has-feedback">
-          <input type="text" class="form-control" placeholder="search">
-          <span class="fa fa-search form-control-feedback" aria-hidden="true"></span>
-        </div>
-      </div>
-    </div> <!-- end header content -->
-
-    <div id="messages-content" class="row">
-      <div class="message-wrapper">
-        <div class="message">
-          <a class="avatar" href="#">
-            <img src="/images/avatar/male2.png" class="img-avatar" />
-          </a>
-          <div class="message-info">
-            <a href="#" class="username">giangttd</a>
-            <span class="date silver">03:40 PM</span>
-            <div class="clearfix"></div>
-            <p class="content">
-              Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="clearfix"></div>
-      <div class="message-wrapper">
-        <div class="message">
-          <a class="avatar" href="#">
-            <img src="/images/avatar/male2.png" class="img-avatar" />
-          </a>
-          <div class="message-info">
-            <a href="#" class="username">giangttd</a>
-            <span class="date silver">03:40 PM</span>
-            <div class="clearfix"></div>
-            <p class="content">
-              Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="clearfix"></div>
-      <div class="message-wrapper">
-        <div class="message">
-          <a class="avatar" href="#">
-            <img src="/images/avatar/male2.png" class="img-avatar" />
-          </a>
-          <div class="message-info">
-            <a href="#" class="username">giangttd</a>
-            <span class="date silver">03:40 PM</span>
-            <div class="clearfix"></div>
-            <p class="content">
-              Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="clearfix"></div>
-      <div class="message-wrapper">
-        <div class="message">
-          <a class="avatar" href="#">
-            <img src="/images/avatar/male2.png" class="img-avatar" />
-          </a>
-          <div class="message-info">
-            <a href="#" class="username">giangttd</a>
-            <span class="date silver">03:40 PM</span>
-            <div class="clearfix"></div>
-            <p class="content">
-              Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="clearfix"></div>
-      <div class="message-wrapper">
-        <div class="message">
-          <a class="avatar" href="#">
-            <img src="/images/avatar/male2.png" class="img-avatar" />
-          </a>
-          <div class="message-info">
-            <a href="#" class="username">giangttd</a>
-            <span class="date silver">03:40 PM</span>
-            <div class="clearfix"></div>
-            <p class="content">
-              Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="clearfix"></div>
-      <div class="message-wrapper">
-        <div class="message">
-          <a class="avatar" href="#">
-            <img src="/images/avatar/male2.png" class="img-avatar" />
-          </a>
-          <div class="message-info">
-            <a href="#" class="username">giangttd</a>
-            <span class="date silver">03:40 PM</span>
-            <div class="clearfix"></div>
-            <p class="content">
-              Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="clearfix"></div>
-      <div class="message-wrapper">
-        <div class="message">
-          <a class="avatar" href="#">
-            <img src="/images/avatar/male2.png" class="img-avatar" />
-          </a>
-          <div class="message-info">
-            <a href="#" class="username">giangttd</a>
-            <span class="date silver">03:40 PM</span>
-            <div class="clearfix"></div>
-            <p class="content">
-              Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="clearfix"></div>
-<div class="message-wrapper">
-        <div class="message">
-          <a class="avatar" href="#">
-            <img src="/images/avatar/male2.png" class="img-avatar" />
-          </a>
-          <div class="message-info">
-            <a href="#" class="username">giangttd</a>
-            <span class="date silver">03:40 PM</span>
-            <div class="clearfix"></div>
-            <p class="content">
-              Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="clearfix"></div>
-      <div class="message-wrapper">
-        <div class="message">
-          <a class="avatar" href="#">
-            <img src="/images/avatar/male2.png" class="img-avatar" />
-          </a>
-          <div class="message-info">
-            <a href="#" class="username">giangttd</a>
-            <span class="date silver">03:40 PM</span>
-            <div class="clearfix"></div>
-            <p class="content">
-              Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="clearfix"></div>
-
-      <div class="message-wrapper">
-        <div class="message">
-          <a class="avatar" href="#">
-            <img src="/images/avatar/male2.png" class="img-avatar" />
-          </a>
-          <div class="message-info">
-            <a href="#" class="username">giangttd</a>
-            <span class="date silver">03:40 PM</span>
-            <div class="clearfix"></div>
-            <p class="content">
-              Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se bi. sot. Neu vay thi` can phai viet test case ra de chuan bi. release. Neu khong se b
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="clearfix"></div>
-
-      <div class="message-wrapper">
-        <div class="message">
-          <a class="avatar" href="#">
-            <img src="/images/avatar/male2.png" class="img-avatar" />
-          </a>
-          <div class="message-info">
-            <a href="#" class="username">giangttd</a>
-            <span class="date silver">03:40 PM</span>
-            <div class="clearfix"></div>
-            <p class="content">
-              Neu vay thi` can phai viet test c
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="clearfix"></div>
-
-      <!-- input message -->
-      <div id="input-message">
-        <input class="form-control"/>
-      </div>
-    </div> <!-- end messages content -->
-
+    <router-outlet></router-outlet>
   </div>
 </div>

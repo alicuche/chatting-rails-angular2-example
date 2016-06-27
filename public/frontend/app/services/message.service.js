@@ -8,27 +8,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var http_1 = require('@angular/http');
 var core_1 = require('@angular/core');
 require('rxjs/add/operator/toPromise');
 var http_service_1 = require('./http.service');
-var UserService = (function () {
-    function UserService(httpService, http) {
+var MessageService = (function () {
+    function MessageService(httpService) {
         this.httpService = httpService;
-        this.http = http;
     }
-    UserService.prototype.getUserByUsername = function (username) {
-        return this.httpService.get("/users/username/" + username);
+    MessageService.prototype.addFriend = function (userName) {
+        var data = { user: { username: userName } };
+        return this.httpService.post('/users/add_friend', data);
     };
-    UserService.prototype.handleError = function (error) {
-        console.error('An error occurred', error);
-        return Promise.reject(error.message || error);
+    MessageService.prototype.sendDirectMessage = function (user, message) {
+        var data = { message: { content: message, receive_id: user.id, message_type: 0 } };
+        return this.httpService.post('/messages', data);
     };
-    UserService = __decorate([
+    MessageService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_service_1.HttpService, http_1.Http])
-    ], UserService);
-    return UserService;
+        __metadata('design:paramtypes', [http_service_1.HttpService])
+    ], MessageService);
+    return MessageService;
 }());
-exports.UserService = UserService;
-//# sourceMappingURL=user.service.js.map
+exports.MessageService = MessageService;
+//# sourceMappingURL=message.service.js.map

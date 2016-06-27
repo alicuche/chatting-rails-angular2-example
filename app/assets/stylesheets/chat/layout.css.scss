@@ -11,7 +11,7 @@
   position: relative;
   h2.title{
     font-size: 14px;
-    i.fa-plus{
+    i.fa{
       float: right;
       cursor: pointer;
     }
@@ -99,13 +99,17 @@
   left: 0;
   text-align: center;
   width: 100%;
+  padding-left: 15px;
+  margin-bottom: 10px;
+
   input{
     width: 98%;
-    margin: 0 auto 5px;
+    margin: 0 auto 0px;
   }
 }
 
 #messages-content{
-  overflow-y: scroll;
+  height: 0px;
+  overflow-y: auto;
   float: left;
 }

@@ -1,0 +1,17 @@
+<h2 class="title">
+  DIRECT MESSAGES
+  <i class="fa fa-plus" aria-hidden="true" (click)="showAddFriend()" *ngIf="!isShowAddFriend"></i>
+  <i class="fa fa-minus" aria-hidden="true" *ngIf="isShowAddFriend" (click)="hideAddFriend()"></i>
+</h2>
+<div id="showAddFriend" *ngIf="isShowAddFriend">
+  <input class="form-control" placeholder="Find a people" enterKey (enterExcute)="startDirectMessage()" [(ngModel)]="directMessageUserName"/>
+</div>
+
+<ul class="list-unstyled">
+  <li *ngFor="let friend of friends">
+    <i class="fa fa-circle status" [ngClass]="friend.status" aria-hidden="true"></i>
+    <a [routerLink]="['DirectMessage', {username: friend.username}]">
+      {{friend.username}}
+    </a>
+  </li>
+</ul>

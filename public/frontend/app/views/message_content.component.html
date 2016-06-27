@@ -1,0 +1,39 @@
+<div id="header-content" class="row">
+  <div id="header-info" class="col-xs-7 col-md-7">
+    <div *ngIf="isDirectMessage" class="is-direct-message">
+      <a class="avatar" href="#">
+        <img src="{{user.avatar_path}}" class="img-avatar" />
+      </a>
+      <h3 class="name">@{{user.username}}</h3>
+    </div>
+
+    <div *ngIf="!isDirectMessage">
+      <h3 class="name">@{{user.username}}</h3>
+      <span class="count-member silver">12 members </span>
+      |
+      <span class="desc silver"> happy coding</span>
+    </div>
+  </div>
+  <div id="search" class="col-xs-5 col-md-5">
+    <div class="form-group has-feedback">
+      <input type="text" class="form-control" placeholder="search">
+      <span class="fa fa-search form-control-feedback" aria-hidden="true"></span>
+    </div>
+  </div>
+</div> <!-- end header content -->
+
+<div id="messages-content" class="row">
+  <div class="message-wrapper" *ngFor='let message of user.messages'>
+    <message [message]='message'></message>
+  </div>
+  <!-- input message -->
+  <div id="input-message" class="form-group has-success">
+    <div class="input-group">
+      <span class="input-group-addon">
+        <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+      </span>
+      <input class="form-control" enterKey (enterExcute)="sendMessage()" [(ngModel)]="messageString"/>
+    </div>
+  </div>
+
+</div> <!-- end messages content -->
