@@ -16,4 +16,6 @@ Rails.application.routes.draw do
 
   # chatting
   get ':name(/*other)', to: 'chat#index'
+
+  mount ActionCable.server => '/cable'
 end

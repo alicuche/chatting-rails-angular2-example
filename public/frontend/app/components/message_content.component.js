@@ -21,20 +21,17 @@ var MessageContentComponent = (function () {
         this.messageService = messageService;
         this.isDirectMessage = false;
         this.user = {};
+        this.self = this;
     }
     MessageContentComponent.prototype.ngOnInit = function () {
         this.initDirectMessage();
     };
     MessageContentComponent.prototype.sendMessage = function () {
-        var _this = this;
         if (!this.messageString.trim())
             return false;
         if (this.isDirectMessage) {
-            this.messageService.sendDirectMessage(this.user, this.messageString)
-                .then(function (response) {
-                _this.user.messages.push(response.data);
-                _this.messageString = null;
-            });
+            App.global_chat.send_direct_message(this.messageString, this.user.id);
+            this.messageString = null;
         }
         else {
         }
@@ -47,8 +44,26 @@ var MessageContentComponent = (function () {
             this.isDirectMessage = true;
             this.userService.getUserByUsername(username).then(function (response) {
                 _this.user = response.data;
+                _this.initCableChatDirect();
             });
         }
+    };
+    MessageContentComponent.prototype.initCableChatDirect = function () {
+        App.global_chat = App.cable.subscriptions.create({
+            channel: "ChatChannel",
+            direct_id: currentUser.id + "_" + this.user.id
+        }, {
+            received: this.displayMessage.bind(this),
+            send_direct_message: function (content, receive_id) {
+                return this.perform('send_direct_message', {
+                    content: content,
+                    receive_id: receive_id
+                });
+            }
+        });
+    };
+    MessageContentComponent.prototype.displayMessage = function (data) {
+        this.user.messages.push(data.message);
     };
     MessageContentComponent = __decorate([
         core_1.Component({

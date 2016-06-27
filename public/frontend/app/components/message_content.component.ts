@@ -25,6 +25,7 @@ export class MessageContentComponent implements OnInit{
   messageString: string
   isDirectMessage: boolean = false
   user = {}
+  self = this
 
   ngOnInit(){
     this.initDirectMessage()
@@ -34,11 +35,8 @@ export class MessageContentComponent implements OnInit{
     if(!this.messageString.trim()) return false
 
     if(this.isDirectMessage){
-      this.messageService.sendDirectMessage(this.user, this.messageString)
-        .then(response => {
-          this.user.messages.push(response.data)
-          this.messageString = null
-        })
+      App.global_chat.send_direct_message(this.messageString, this.user.id)
+      this.messageString = null
     }else{
       //
     }
@@ -51,8 +49,28 @@ export class MessageContentComponent implements OnInit{
       this.isDirectMessage = true
       this.userService.getUserByUsername(username).then(response => {
         this.user = response.data
+        this.initCableChatDirect()
       })
     }
+  }
+
+  private initCableChatDirect(){
+    App.global_chat = App.cable.subscriptions.create({
+      channel: "ChatChannel",
+      direct_id: `${currentUser.id}_${this.user.id}`
+    }, {
+      received: this.displayMessage.bind(this),
+      send_direct_message: function(content, receive_id) {
+        return this.perform('send_direct_message', {
+          content: content,
+          receive_id: receive_id
+        });
+      }
+    });
+  }
+
+  private displayMessage(data){
+    this.user.messages.push(data.message)
   }
 
 }

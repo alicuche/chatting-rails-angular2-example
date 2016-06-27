@@ -4,6 +4,8 @@ class Message < ApplicationRecord
 
   enum message_type: %w(direct channel)
 
+  after_create_commit { MessageBroadcastJob.perform_later(self) }
+
   scope :users, ->(user1, user2) { where(user_id: [user1.id, user2.id], receive_id: [user1.id, user2.id]) }
   scope :channles, ->(channel1, channel2) { where(user_id: [channel1.id, channel2.id], receive_id: [channel1.id, channel2.id]) }
 
