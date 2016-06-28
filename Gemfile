@@ -53,3 +53,4 @@ group :production do
 end
 
 gem 'devise', '~> 4.1', '>= 4.1.1'
+gem 'settingslogic'

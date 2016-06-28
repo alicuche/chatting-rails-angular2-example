@@ -17,15 +17,18 @@ var direct_messages_component_1 = require('./direct_messages.component');
 var http_service_1 = require('../services/http.service');
 var user_service_1 = require('../services/user.service');
 var message_service_1 = require('../services/message.service');
+var cable_service_1 = require('../services/cable.service');
 // directives
 var enter_key_directive_1 = require('../directives/enter_key.directive');
 var AppComponent = (function () {
-    function AppComponent(userService) {
+    function AppComponent(cableService, userService) {
+        this.cableService = cableService;
         this.userService = userService;
         this.currentUser = {};
     }
     AppComponent.prototype.ngOnInit = function () {
         this.currentUser = currentUser;
+        this.cableService.newChannel(currentUser.id);
     };
     AppComponent = __decorate([
         core_1.Component({
@@ -37,11 +40,12 @@ var AppComponent = (function () {
                 router_deprecated_1.ROUTER_PROVIDERS,
                 http_service_1.HttpService,
                 user_service_1.UserService,
-                message_service_1.MessageService
+                message_service_1.MessageService,
+                cable_service_1.CableService
             ]
         }),
         router_deprecated_1.RouteConfig(routes_1.APP_ROUTER_PROVIDERS), 
-        __metadata('design:paramtypes', [user_service_1.UserService])
+        __metadata('design:paramtypes', [cable_service_1.CableService, user_service_1.UserService])
     ], AppComponent);
     return AppComponent;
 }());

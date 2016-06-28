@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, Input, EventEmitter } from '@angular/core'
 import { RouteParams } from '@angular/router-deprecated';
 
 import { MessageComponent } from './message.component'
 import { EnterKeyDirective } from '../directives/enter_key.directive'
 import { MessageService } from '../services/message.service'
 import { UserService } from '../services/user.service'
+import { CableService } from '../services/cable.service'
 
 declare  var $:any
 declare  var currentUser:any
+declare  var subKeys:any
 
 @Component({
   moduleId: module.id,
@@ -20,22 +22,29 @@ export class MessageContentComponent implements OnInit{
   constructor(
     private routeParams: RouteParams,
     private userService: UserService,
+    private cableService: CableService,
     private messageService: MessageService) {}
 
   messageString: string
   isDirectMessage: boolean = false
-  user = {}
-  self = this
+  user: any = {}
+  messages: any = []
+  currentSubscribe = null
 
   ngOnInit(){
     this.initDirectMessage()
+    this.currentSubscribe = this.cableService.subscribe('all', this.receivedMessage.bind(this))
+  }
+
+  ngOnDestroy(){
+    this.currentSubscribe.unsubscribe()
   }
 
   sendMessage(){
     if(!this.messageString.trim()) return false
 
     if(this.isDirectMessage){
-      App.global_chat.send_direct_message(this.messageString, this.user.id)
+      this.cableService.sendDirectMessage(this.messageString, this.user['id'])
       this.messageString = null
     }else{
       //
@@ -49,28 +58,26 @@ export class MessageContentComponent implements OnInit{
       this.isDirectMessage = true
       this.userService.getUserByUsername(username).then(response => {
         this.user = response.data
-        this.initCableChatDirect()
+        this.messages = this.user.messages
       })
     }
   }
 
-  private initCableChatDirect(){
-    App.global_chat = App.cable.subscriptions.create({
-      channel: "ChatChannel",
-      direct_id: `${currentUser.id}_${this.user.id}`
-    }, {
-      received: this.displayMessage.bind(this),
-      send_direct_message: function(content, receive_id) {
-        return this.perform('send_direct_message', {
-          content: content,
-          receive_id: receive_id
-        });
-      }
-    });
+  private receivedMessage(data){
+    var message = data.message
+    switch(data.key){
+      case subKeys.new_direct_message:
+        if([message.receive_id, message.user_id].indexOf(this.user.id) != - 1){
+          this.displayMessage(message)
+        }else if(message.user.id != currentUser.id){
+          this.cableService.eventNext('highlightDirectMessageFriend', message.user)
+        }
+    }
   }
 
-  private displayMessage(data){
-    this.user.messages.push(data.message)
+  private displayMessage(message){
+    this.messages.push(message)
+    setTimeout(()=> $('#messages-content').scrollTop(10000000), 10)
   }
 
 }

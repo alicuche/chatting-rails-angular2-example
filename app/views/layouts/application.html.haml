@@ -22,4 +22,4 @@
 
     :javascript
       var currentUser = #{current_user.as_json(methods: [:friends]).to_json} || {}
-
+      var subKeys = #{Settings.sub_keys.to_json} || {}

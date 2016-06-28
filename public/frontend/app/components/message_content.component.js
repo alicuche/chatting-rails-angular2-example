@@ -14,23 +14,30 @@ var message_component_1 = require('./message.component');
 var enter_key_directive_1 = require('../directives/enter_key.directive');
 var message_service_1 = require('../services/message.service');
 var user_service_1 = require('../services/user.service');
+var cable_service_1 = require('../services/cable.service');
 var MessageContentComponent = (function () {
-    function MessageContentComponent(routeParams, userService, messageService) {
+    function MessageContentComponent(routeParams, userService, cableService, messageService) {
         this.routeParams = routeParams;
         this.userService = userService;
+        this.cableService = cableService;
         this.messageService = messageService;
         this.isDirectMessage = false;
         this.user = {};
-        this.self = this;
+        this.messages = [];
+        this.currentSubscribe = null;
     }
     MessageContentComponent.prototype.ngOnInit = function () {
         this.initDirectMessage();
+        this.currentSubscribe = this.cableService.subscribe('all', this.receivedMessage.bind(this));
+    };
+    MessageContentComponent.prototype.ngOnDestroy = function () {
+        this.currentSubscribe.unsubscribe();
     };
     MessageContentComponent.prototype.sendMessage = function () {
         if (!this.messageString.trim())
             return false;
         if (this.isDirectMessage) {
-            App.global_chat.send_direct_message(this.messageString, this.user.id);
+            this.cableService.sendDirectMessage(this.messageString, this.user['id']);
             this.messageString = null;
         }
         else {
@@ -44,26 +51,25 @@ var MessageContentComponent = (function () {
             this.isDirectMessage = true;
             this.userService.getUserByUsername(username).then(function (response) {
                 _this.user = response.data;
-                _this.initCableChatDirect();
+                _this.messages = _this.user.messages;
             });
         }
     };
-    MessageContentComponent.prototype.initCableChatDirect = function () {
-        App.global_chat = App.cable.subscriptions.create({
-            channel: "ChatChannel",
-            direct_id: currentUser.id + "_" + this.user.id
-        }, {
-            received: this.displayMessage.bind(this),
-            send_direct_message: function (content, receive_id) {
-                return this.perform('send_direct_message', {
-                    content: content,
-                    receive_id: receive_id
-                });
-            }
-        });
+    MessageContentComponent.prototype.receivedMessage = function (data) {
+        var message = data.message;
+        switch (data.key) {
+            case subKeys.new_direct_message:
+                if ([message.receive_id, message.user_id].indexOf(this.user.id) != -1) {
+                    this.displayMessage(message);
+                }
+                else if (message.user.id != currentUser.id) {
+                    this.cableService.eventNext('highlightDirectMessageFriend', message.user);
+                }
+        }
     };
-    MessageContentComponent.prototype.displayMessage = function (data) {
-        this.user.messages.push(data.message);
+    MessageContentComponent.prototype.displayMessage = function (message) {
+        this.messages.push(message);
+        setTimeout(function () { return $('#messages-content').scrollTop(10000000); }, 10);
     };
     MessageContentComponent = __decorate([
         core_1.Component({
@@ -72,7 +78,7 @@ var MessageContentComponent = (function () {
             templateUrl: '../views/message_content.component.html',
             directives: [enter_key_directive_1.EnterKeyDirective, message_component_1.MessageComponent]
         }), 
-        __metadata('design:paramtypes', [router_deprecated_1.RouteParams, user_service_1.UserService, message_service_1.MessageService])
+        __metadata('design:paramtypes', [router_deprecated_1.RouteParams, user_service_1.UserService, cable_service_1.CableService, message_service_1.MessageService])
     ], MessageContentComponent);
     return MessageContentComponent;
 }());

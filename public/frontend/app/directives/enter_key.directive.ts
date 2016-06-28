@@ -3,9 +3,9 @@ import { Directive, HostListener, Input, Output, EventEmitter } from '@angular/c
 @Directive({ selector: '[enterKey]' })
 
 export class EnterKeyDirective {
-  @Output() enterExcute = new EventEmitter()
+  @Output() enterExcute: any = new EventEmitter()
 
-  @HostListener('keypress', ['$event']) onKeypress(event:Event) {
+  @HostListener('keypress', ['$event']) onKeypress(event:any) {
     if(event.code == 'Enter'){
       this.enterExcute.emit()
     }

@@ -1,8 +1,8 @@
 a{
-  text-decoration: none;
-  color: #b3b3b3;
+  text-decoration: none !important;
+  color: #b3b3b3 !important;
   &:hover, &:active{
-    color: #F0F0F0;
+    color: #F0F0F0 !important;
     text-decoration: none;
   }
 }
@@ -72,11 +72,6 @@ img.img-avatar{
   margin-bottom: 10px;
 }
 
-.router-link-active {
-  color: #ffffff;
-  font-weight: bold;
-}
-
 .is-direct-message{
   .name{
     margin-top: 12px !important;
@@ -88,5 +83,12 @@ img.img-avatar{
 #messages-content{
   .username{
     color: #353535;
+  }
+}
+
+#friends-list{
+  .newMessage{
+    color: #fff !important;
+    font-weight: bold;
   }
 }

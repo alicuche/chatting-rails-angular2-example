@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from '@angular/router-deprecated'
+import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, RouteParams } from '@angular/router-deprecated'
 import { APP_ROUTER_PROVIDERS } from '../routes'
 
 // components
@@ -9,6 +9,7 @@ import { DirectMessagesComponent } from './direct_messages.component'
 import { HttpService } from '../services/http.service'
 import { UserService } from '../services/user.service'
 import { MessageService } from '../services/message.service'
+import { CableService } from '../services/cable.service'
 
 // directives
 import { EnterKeyDirective } from '../directives/enter_key.directive';
@@ -27,19 +28,22 @@ declare  var currentUser:any
     ROUTER_PROVIDERS,
     HttpService,
     UserService,
-    MessageService
-  ]
+    MessageService,
+    CableService
+   ]
 })
 
 @RouteConfig(APP_ROUTER_PROVIDERS)
 
 export class AppComponent implements OnInit {
   constructor(
+    private cableService: CableService,
     private userService: UserService ){}
 
   currentUser:any = {}
 
   ngOnInit(){
     this.currentUser = currentUser
+    this.cableService.newChannel(currentUser.id)
   }
 }

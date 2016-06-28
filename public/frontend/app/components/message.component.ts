@@ -21,7 +21,7 @@ export class MessageComponent implements OnInit{
     private messageService: MessageService) {}
 
   ngOnInit(){
-    setTimeout(()=> $('#messages-content').scrollTop(10000), 0)
+    setTimeout(()=> $('#messages-content').scrollTop(100000000), 0)
   }
 
 }

@@ -10,7 +10,7 @@
 <ul class="list-unstyled">
   <li *ngFor="let friend of friends">
     <i class="fa fa-circle status" [ngClass]="friend.status" aria-hidden="true"></i>
-    <a [routerLink]="['DirectMessage', {username: friend.username}]">
+    <a [routerLink]="['DirectMessage', {username: friend.username}]" [class.newMessage]='friend.isNewMessage' (click)="friend.isNewMessage = false">
       {{friend.username}}
     </a>
   </li>

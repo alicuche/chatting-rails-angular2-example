@@ -4,6 +4,7 @@ import { Router }            from '@angular/router-deprecated';
 
 import { EnterKeyDirective } from '../directives/enter_key.directive'
 import { MessageService } from '../services/message.service'
+import { CableService } from '../services/cable.service'
 
 declare  var $:any
 declare  var currentUser:any
@@ -18,6 +19,7 @@ declare  var currentUser:any
 export class DirectMessagesComponent implements OnInit{
   constructor(
     private router: Router,
+    private cableService: CableService,
     private messageService: MessageService) {}
 
   isShowAddFriend: boolean = false
@@ -26,6 +28,17 @@ export class DirectMessagesComponent implements OnInit{
 
   ngOnInit(){
     this.friends = currentUser.friends
+    this.cableService.subscribe('highlightDirectMessageFriend', this.highlightDirectMessageFriend.bind(this))
+  }
+
+  highlightDirectMessageFriend(user){
+    var friend = this.findFriend(user)
+    if(!friend){
+      this.friends.unshift(user)
+      friend = this.friends[0]
+    }
+
+    friend.isNewMessage = true
   }
 
   showAddFriend(){
@@ -48,6 +61,10 @@ export class DirectMessagesComponent implements OnInit{
           }
         })
     }
+  }
+
+  private findFriend(friend){
+    return this.friends.find(u => u.id == friend.id)
   }
 
 }

@@ -17,7 +17,7 @@ var MessageComponent = (function () {
         this.messageService = messageService;
     }
     MessageComponent.prototype.ngOnInit = function () {
-        setTimeout(function () { return $('#messages-content').scrollTop(10000); }, 0);
+        setTimeout(function () { return $('#messages-content').scrollTop(100000000); }, 0);
     };
     __decorate([
         core_1.Input(), 

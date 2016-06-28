@@ -62,6 +62,14 @@
   #friends-list{
     ul{
       margin-left: 10px;
+      a{
+        padding: 2px;
+      }
+
+      .router-link-active {
+        color: #353535 !important;
+        background-color: #5bc0de;
+      }
     }
   }
 } // end #left
