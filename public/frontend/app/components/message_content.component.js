@@ -16,6 +16,7 @@ var message_service_1 = require('../services/message.service');
 var user_service_1 = require('../services/user.service');
 var cable_service_1 = require('../services/cable.service');
 var notify_service_1 = require('../services/notify.service');
+var search_pipe_1 = require('../pipes/search.pipe');
 var MessageContentComponent = (function () {
     function MessageContentComponent(routeParams, userService, notifyService, cableService, messageService) {
         this.routeParams = routeParams;
@@ -27,13 +28,16 @@ var MessageContentComponent = (function () {
         this.user = {};
         this.messages = [];
         this.currentSubscribe = null;
+        this.searchString = '';
     }
     MessageContentComponent.prototype.ngOnInit = function () {
         this.initDirectMessage();
         this.currentSubscribe = this.cableService.subscribe('all', this.receivedMessage.bind(this));
+        this.subcribeRemoveMessage = this.cableService.subscribe('removeMessage', this.removeMessageAndSend.bind(this));
     };
     MessageContentComponent.prototype.ngOnDestroy = function () {
         this.currentSubscribe.unsubscribe();
+        this.subcribeRemoveMessage.unsubscribe();
     };
     MessageContentComponent.prototype.sendMessage = function () {
         if (!this.messageString.trim())
@@ -59,6 +63,7 @@ var MessageContentComponent = (function () {
     };
     MessageContentComponent.prototype.receivedMessage = function (data) {
         var message = data.message;
+        console.log(message);
         switch (data.key) {
             case subKeys.new_direct_message:
                 if ([message.receive_id, message.user_id].indexOf(this.user.id) != -1) {
@@ -69,6 +74,10 @@ var MessageContentComponent = (function () {
                     this.createNotify(message);
                     this.cableService.eventNext('highlightDirectMessageFriend', message.user);
                 }
+                break;
+            case subKeys.remove_message:
+                this.removeMessage(message);
+                break;
         }
     };
     MessageContentComponent.prototype.createNotify = function (message) {
@@ -83,12 +92,26 @@ var MessageContentComponent = (function () {
         this.messages.push(message);
         setTimeout(function () { return $('#messages-content').scrollTop(10000000); }, 10);
     };
+    MessageContentComponent.prototype.removeMessage = function (message) {
+        var message = this.findMessage(message);
+        if (message) {
+            message.is_removed = true;
+        }
+    };
+    MessageContentComponent.prototype.removeMessageAndSend = function (message) {
+        this.removeMessage(message);
+        this.cableService.removeDirectMessage(message);
+    };
+    MessageContentComponent.prototype.findMessage = function (message) {
+        return this.messages.find(function (mes) { return mes.id == message.id; });
+    };
     MessageContentComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'message-content',
             templateUrl: '../views/message_content.component.html',
-            directives: [enter_key_directive_1.EnterKeyDirective, message_component_1.MessageComponent]
+            directives: [enter_key_directive_1.EnterKeyDirective, message_component_1.MessageComponent],
+            pipes: [search_pipe_1.SearchPipe]
         }), 
         __metadata('design:paramtypes', [router_deprecated_1.RouteParams, user_service_1.UserService, notify_service_1.NotifyService, cable_service_1.CableService, message_service_1.MessageService])
     ], MessageContentComponent);

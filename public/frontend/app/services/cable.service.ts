@@ -15,17 +15,26 @@ export class CableService {
       channel_id: channel_id
     }, {
       received: this.receivedMessage.bind(this),
-      send_direct_message: function(content, receive_id) {
+      sendDirectMessage: function(content, receive_id) {
         return this.perform('send_direct_message', {
           content: content,
           receive_id: receive_id
         });
+      },
+      removeDirectMessage: function(message){
+        return this.perform('remove_message', {
+          message_id: message.id
+        })
       }
     });
   }
 
   sendDirectMessage(content: string, receive_id: number) {
-    App.global_chat.send_direct_message(content, receive_id)
+    App.global_chat.sendDirectMessage(content, receive_id)
+  }
+
+  removeDirectMessage(message) {
+    App.global_chat.removeDirectMessage(message)
   }
 
   receivedMessage(data){
@@ -43,9 +52,6 @@ export class CableService {
   }
 
   subscribe(eventKey, callback){
-    // if(this.eventKeys.indexOf(eventKey) != -1) return false
-    // this.eventKeys.push(eventKey)
-
     return this.emitter.subscribe(content => {
       if(content.eventKey == eventKey){
         callback(content.data)

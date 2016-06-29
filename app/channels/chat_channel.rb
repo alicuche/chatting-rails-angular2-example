@@ -14,4 +14,12 @@ class ChatChannel < ApplicationCable::Channel
       content: data['content']
     )
   end
+
+  def remove_message(data)
+    message = current_user.messages.find_by(id: data['message_id'])
+    return if message.blank? || message.is_removed
+
+    message.update(is_removed: true)
+    CableService.remove_message(message)
+  end
 end

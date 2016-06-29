@@ -4,4 +4,5 @@ import { MessageContentComponent }  from './components/message_content.component
 
 export const APP_ROUTER_PROVIDERS = [
   { path: '/messages/direct/:username', name: 'DirectMessage', component: MessageContentComponent },
+  { path: '/', name: 'HomePage', component: MessageContentComponent }
 ];

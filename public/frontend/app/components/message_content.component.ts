@@ -8,6 +8,8 @@ import { UserService } from '../services/user.service'
 import { CableService } from '../services/cable.service'
 import { NotifyService } from '../services/notify.service'
 
+import {SearchPipe} from '../pipes/search.pipe';
+
 declare  var $:any
 declare  var currentUser:any
 declare  var subKeys:any
@@ -16,7 +18,8 @@ declare  var subKeys:any
   moduleId: module.id,
   selector: 'message-content',
   templateUrl: '../views/message_content.component.html',
-  directives: [EnterKeyDirective, MessageComponent]
+  directives: [EnterKeyDirective, MessageComponent],
+  pipes: [SearchPipe]
 })
 
 export class MessageContentComponent implements OnInit{
@@ -32,14 +35,17 @@ export class MessageContentComponent implements OnInit{
   user: any = {}
   messages: any = []
   currentSubscribe = null
+  searchString: string = ''
 
   ngOnInit(){
     this.initDirectMessage()
     this.currentSubscribe = this.cableService.subscribe('all', this.receivedMessage.bind(this))
+    this.subcribeRemoveMessage = this.cableService.subscribe('removeMessage', this.removeMessageAndSend.bind(this))
   }
 
   ngOnDestroy(){
     this.currentSubscribe.unsubscribe()
+    this.subcribeRemoveMessage.unsubscribe()
   }
 
   sendMessage(){
@@ -49,7 +55,7 @@ export class MessageContentComponent implements OnInit{
       this.cableService.sendDirectMessage(this.messageString, this.user['id'])
       this.messageString = null
     }else{
-      //
+      // other direct message
     }
   }
 
@@ -67,10 +73,9 @@ export class MessageContentComponent implements OnInit{
 
   private receivedMessage(data){
     var message = data.message
+    console.log(message)
     switch(data.key){
       case subKeys.new_direct_message:
-
-
         if([message.receive_id, message.user_id].indexOf(this.user.id) != - 1){
           this.createNotify(message)
           this.displayMessage(message)
@@ -78,6 +83,10 @@ export class MessageContentComponent implements OnInit{
           this.createNotify(message)
           this.cableService.eventNext('highlightDirectMessageFriend', message.user)
         }
+        break
+      case subKeys.remove_message:
+        this.removeMessage(message)
+        break
     }
   }
 
@@ -93,6 +102,22 @@ export class MessageContentComponent implements OnInit{
   private displayMessage(message){
     this.messages.push(message)
     setTimeout(()=> $('#messages-content').scrollTop(10000000), 10)
+  }
+
+  private removeMessage(message){
+    let message = this.findMessage(message)
+    if(message){
+      message.is_removed = true
+    }
+  }
+
+  private removeMessageAndSend(message){
+    this.removeMessage(message)
+    this.cableService.removeDirectMessage(message)
+  }
+
+  private findMessage(message){
+    return this.messages.find(mes => mes.id == message.id)
   }
 
 }

@@ -27,6 +27,7 @@ var DirectMessagesComponent = (function () {
         this.cableService.subscribe('highlightDirectMessageFriend', this.highlightDirectMessageFriend.bind(this));
     };
     DirectMessagesComponent.prototype.highlightDirectMessageFriend = function (user) {
+        console.log(this.friends);
         var friend = this.findFriend(user);
         if (!friend) {
             this.friends.unshift(user);

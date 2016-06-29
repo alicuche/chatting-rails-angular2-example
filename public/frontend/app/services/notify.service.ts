@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class NotifyService {
   constructor() {}
 
-  create(options = {}){
+  create(options: any = {}){
     if(window.Notification && Notification.permission !== "denied") {
       Notification.requestPermission(status => {
         var notify = new Notification(options.title, {

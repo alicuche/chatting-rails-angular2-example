@@ -11,13 +11,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var message_service_1 = require('../services/message.service');
 var user_service_1 = require('../services/user.service');
+var cable_service_1 = require('../services/cable.service');
 var MessageComponent = (function () {
-    function MessageComponent(userService, messageService) {
+    function MessageComponent(userService, cableService, messageService) {
         this.userService = userService;
+        this.cableService = cableService;
         this.messageService = messageService;
+        setTimeout(function () { return $('#messages-content').scrollTop(100000000); }, 0);
     }
     MessageComponent.prototype.ngOnInit = function () {
-        setTimeout(function () { return $('#messages-content').scrollTop(100000000); }, 0);
+        this.currentUser = currentUser;
+    };
+    MessageComponent.prototype.editAction = function () {
+        this.cableService.eventNext('editMessage', this.message);
+    };
+    MessageComponent.prototype.removeAction = function () {
+        this.cableService.eventEmit('removeMessage', this.message);
     };
     __decorate([
         core_1.Input(), 
@@ -29,7 +38,7 @@ var MessageComponent = (function () {
             selector: 'message',
             templateUrl: '../views/message.component.html'
         }), 
-        __metadata('design:paramtypes', [user_service_1.UserService, message_service_1.MessageService])
+        __metadata('design:paramtypes', [user_service_1.UserService, cable_service_1.CableService, message_service_1.MessageService])
     ], MessageComponent);
     return MessageComponent;
 }());

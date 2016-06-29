@@ -20,16 +20,24 @@ var CableService = (function () {
             channel_id: channel_id
         }, {
             received: this.receivedMessage.bind(this),
-            send_direct_message: function (content, receive_id) {
+            sendDirectMessage: function (content, receive_id) {
                 return this.perform('send_direct_message', {
                     content: content,
                     receive_id: receive_id
+                });
+            },
+            removeDirectMessage: function (message) {
+                return this.perform('remove_message', {
+                    message_id: message.id
                 });
             }
         });
     };
     CableService.prototype.sendDirectMessage = function (content, receive_id) {
-        App.global_chat.send_direct_message(content, receive_id);
+        App.global_chat.sendDirectMessage(content, receive_id);
+    };
+    CableService.prototype.removeDirectMessage = function (message) {
+        App.global_chat.removeDirectMessage(message);
     };
     CableService.prototype.receivedMessage = function (data) {
         this.eventNext('all', data);
@@ -43,8 +51,6 @@ var CableService = (function () {
         this.emitter.emit(data);
     };
     CableService.prototype.subscribe = function (eventKey, callback) {
-        // if(this.eventKeys.indexOf(eventKey) != -1) return false
-        // this.eventKeys.push(eventKey)
         return this.emitter.subscribe(function (content) {
             if (content.eventKey == eventKey) {
                 callback(content.data);

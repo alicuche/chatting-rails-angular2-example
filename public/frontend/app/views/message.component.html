@@ -1,4 +1,4 @@
-<div class="message">
+<div class="message" *ngIf='message'>
   <a class="avatar" href="#">
     <img src="/images/avatar/{{message.user.avatar}}" class="img-avatar" />
   </a>
@@ -7,7 +7,12 @@
     <span class="date silver">{{message.short_created_at}}</span>
     <div class="clearfix"></div>
     <p class="content">
-      {{message.content}}
+      <span *ngIf='message.is_removed' class="removed">message is removed!</span>
+      <span *ngIf='!message.is_removed'>{{message.content}}</span>
+    </p>
+    <p class="action" *ngIf='currentUser.id == message.user.id'>
+      <!-- <i class="fa fa-pencil-square-o" aria-hidden="true" (click)="editAction()"></i> -->
+      <i class="fa fa-trash-o" aria-hidden="true" (click)="removeAction()"></i>
     </p>
   </div>
 </div>

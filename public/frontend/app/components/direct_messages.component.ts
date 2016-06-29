@@ -32,7 +32,8 @@ export class DirectMessagesComponent implements OnInit{
   }
 
   highlightDirectMessageFriend(user){
-    var friend = this.findFriend(user)
+    console.log(this.friends)
+    let friend = this.findFriend(user)
     if(!friend){
       this.friends.unshift(user)
       friend = this.friends[0]

@@ -2,6 +2,7 @@ defaults: &defaults
   sub_keys:
     new_direct_message: 0
     new_channel_message: 1
+    remove_message: 2
 
 development:
   <<: *defaults

@@ -7,4 +7,10 @@ class CableService < BaseService
     ActionCable.server.broadcast "chat_#{message.receive_id}_channel", data
   end
 
+  def self.remove_message(message)
+    data = {message: message, key: Settings.sub_keys['remove_message']}
+
+    ActionCable.server.broadcast "chat_#{message.receive_id}_channel", data
+  end
+
 end
