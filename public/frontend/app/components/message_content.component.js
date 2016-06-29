@@ -15,10 +15,12 @@ var enter_key_directive_1 = require('../directives/enter_key.directive');
 var message_service_1 = require('../services/message.service');
 var user_service_1 = require('../services/user.service');
 var cable_service_1 = require('../services/cable.service');
+var notify_service_1 = require('../services/notify.service');
 var MessageContentComponent = (function () {
-    function MessageContentComponent(routeParams, userService, cableService, messageService) {
+    function MessageContentComponent(routeParams, userService, notifyService, cableService, messageService) {
         this.routeParams = routeParams;
         this.userService = userService;
+        this.notifyService = notifyService;
         this.cableService = cableService;
         this.messageService = messageService;
         this.isDirectMessage = false;
@@ -60,11 +62,21 @@ var MessageContentComponent = (function () {
         switch (data.key) {
             case subKeys.new_direct_message:
                 if ([message.receive_id, message.user_id].indexOf(this.user.id) != -1) {
+                    this.createNotify(message);
                     this.displayMessage(message);
                 }
                 else if (message.user.id != currentUser.id) {
+                    this.createNotify(message);
                     this.cableService.eventNext('highlightDirectMessageFriend', message.user);
                 }
+        }
+    };
+    MessageContentComponent.prototype.createNotify = function (message) {
+        if (message.user.id != currentUser.id) {
+            this.notifyService.create({
+                title: message.user.username,
+                body: message.content,
+                icon: message.user.avatar });
         }
     };
     MessageContentComponent.prototype.displayMessage = function (message) {
@@ -78,7 +90,7 @@ var MessageContentComponent = (function () {
             templateUrl: '../views/message_content.component.html',
             directives: [enter_key_directive_1.EnterKeyDirective, message_component_1.MessageComponent]
         }), 
-        __metadata('design:paramtypes', [router_deprecated_1.RouteParams, user_service_1.UserService, cable_service_1.CableService, message_service_1.MessageService])
+        __metadata('design:paramtypes', [router_deprecated_1.RouteParams, user_service_1.UserService, notify_service_1.NotifyService, cable_service_1.CableService, message_service_1.MessageService])
     ], MessageContentComponent);
     return MessageContentComponent;
 }());

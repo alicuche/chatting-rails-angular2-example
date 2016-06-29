@@ -10,6 +10,7 @@ import { HttpService } from '../services/http.service'
 import { UserService } from '../services/user.service'
 import { MessageService } from '../services/message.service'
 import { CableService } from '../services/cable.service'
+import { NotifyService } from '../services/notify.service'
 
 // directives
 import { EnterKeyDirective } from '../directives/enter_key.directive';
@@ -29,7 +30,8 @@ declare  var currentUser:any
     HttpService,
     UserService,
     MessageService,
-    CableService
+    CableService,
+    NotifyService
    ]
 })
 
@@ -38,6 +40,7 @@ declare  var currentUser:any
 export class AppComponent implements OnInit {
   constructor(
     private cableService: CableService,
+    private notifyService: NotifyService,
     private userService: UserService ){}
 
   currentUser:any = {}
@@ -45,5 +48,6 @@ export class AppComponent implements OnInit {
   ngOnInit(){
     this.currentUser = currentUser
     this.cableService.newChannel(currentUser.id)
+    this.notifyService.requestPermission()
   }
 }

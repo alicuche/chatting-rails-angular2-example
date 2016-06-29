@@ -6,6 +6,7 @@ import { EnterKeyDirective } from '../directives/enter_key.directive'
 import { MessageService } from '../services/message.service'
 import { UserService } from '../services/user.service'
 import { CableService } from '../services/cable.service'
+import { NotifyService } from '../services/notify.service'
 
 declare  var $:any
 declare  var currentUser:any
@@ -22,6 +23,7 @@ export class MessageContentComponent implements OnInit{
   constructor(
     private routeParams: RouteParams,
     private userService: UserService,
+    private notifyService: NotifyService,
     private cableService: CableService,
     private messageService: MessageService) {}
 
@@ -67,11 +69,24 @@ export class MessageContentComponent implements OnInit{
     var message = data.message
     switch(data.key){
       case subKeys.new_direct_message:
+
+
         if([message.receive_id, message.user_id].indexOf(this.user.id) != - 1){
+          this.createNotify(message)
           this.displayMessage(message)
         }else if(message.user.id != currentUser.id){
+          this.createNotify(message)
           this.cableService.eventNext('highlightDirectMessageFriend', message.user)
         }
+    }
+  }
+
+  private createNotify(message){
+    if(message.user.id != currentUser.id){
+      this.notifyService.create({
+        title: message.user.username,
+        body: message.content,
+        icon: message.user.avatar})
     }
   }
 
